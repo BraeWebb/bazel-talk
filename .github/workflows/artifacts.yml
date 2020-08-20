@@ -26,14 +26,12 @@ jobs:
       run: |
         "${GITHUB_WORKSPACE}/bin/bazel" build slides
         
-    - run: |
-        ls -R .
-    
-    - run: |
-        ls -R /home/runner/.cache/bazel
+    - name: Copy Slides
+      run: |
+        cp bazel-bin/slides.pdf slides.pdf
     
     - name: Upload Slides
       uses: actions/upload-artifact@v2
       with:
         name: slides
-        path: bazel-bin/slides.pdf
+        path: slides.pdf
