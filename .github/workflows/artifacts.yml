@@ -1,4 +1,4 @@
-name: Artefacts
+name: Artifacts
 on:
   push: {}
 
@@ -24,7 +24,7 @@ jobs:
 
     - name: Build
       run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" build //...
+        "${GITHUB_WORKSPACE}/bin/bazel" build slides
     
     - name: Upload Slides
       uses: actions/upload-artifact@v2
