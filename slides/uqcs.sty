@@ -1,0 +1,164 @@
+%
+% UQCS Presentation Theme
+%
+\ProvidesPackage{uqcs}
+
+\usepackage[absolute,overlay]{textpos}
+\usepackage{multicol}
+
+\usepackage{fontspec}
+\newfontfamily{\poppins}{Poppins}[ 
+    Extension = .ttf,
+    Path=fonts/,
+    UprightFont = *-Medium
+]
+\newfontfamily{\poppinsbold}{Poppins}[ 
+    Extension = .ttf,
+    Path=fonts/,
+    UprightFont = *-Bold
+]
+\newfontfamily{\poppinslight}{Poppins}[ 
+    Extension = .ttf,
+    Path=fonts/,
+    UprightFont = *-Light
+]
+
+\definecolor{UQCSBlue}{RGB}{52,152,219}
+\definecolor{awesome}{rgb}{1.0, 0.13, 0.32}
+\newcommand{\highlight}[1]{\textcolor{awesome}{#1}}
+
+\setbeamercolor{subtitle}{fg=white}
+\setbeamercolor{author}{fg=white}
+\setbeamercolor{institute}{fg=white}
+\setbeamercolor{date}{fg=white}
+
+% \setbeamertemplate{itemize items}{\color{white}\hfill\ensuremath{\blacksquare}}{default}
+
+\defbeamertemplate*{title page}{customized}[1][]
+{
+  \usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par
+  \usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par
+  \bigskip
+  \usebeamerfont{author}\insertauthor\par
+  \usebeamerfont{institute}\insertinstitute\par
+  \usebeamerfont{date}\insertdate\par
+  \usebeamercolor[fg]{titlegraphic}\inserttitlegraphic
+  
+  \begin{textblock*}{0.5pt}(350pt,220pt)
+      \includegraphics[height=20pt,width=82pt]{images/uqcs-logo}
+  \end{textblock*}
+}
+
+\newenvironment{title-slide}[1]{%
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight]{images/uqcs-background}
+}
+\setbeamercolor{title}{fg=UQCSBlue}
+\setbeamerfont{title}{family=\poppinsbold,size={\fontsize{32}{36}}}
+\color{white}
+\begin{frame}{#1}
+}{\end{frame}}
+
+\newenvironment{split-slide}[1]{%
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight]{backgrounds/split-pane}
+}
+\setbeamertemplate{frametitle}[default][right]
+\setbeamercolor{frametitle}{fg=UQCSBlue}
+\setbeamerfont{frametitle}{family=\poppinsbold,size={\fontsize{22}{26}}}
+\setbeamercolor{section in toc}{fg=white}
+\addtobeamertemplate{block begin}{%
+  \setlength{\textwidth}{0.4\textwidth}%
+}{}
+\color{white}
+\poppinslight
+\begin{frame}{#1}
+}{\end{frame}}
+
+\newenvironment{section-slide}[1]{%
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight]{backgrounds/section}
+}
+\setbeamercolor{title}{fg=UQCSBlue}
+\setbeamerfont{title}{family=\poppinsbold,size={\fontsize{22}{26}}}
+\setbeamercolor{frametitle}{fg=UQCSBlue}
+\setbeamerfont{frametitle}{family=\poppinsbold,size={\fontsize{22}{26}}}
+\addtobeamertemplate{block begin}{%
+  \setlength{\textwidth}{0.4\textwidth}%
+}{}
+\color{white}
+\poppinslight
+\begin{frame}{#1}
+}{\end{frame}}
+
+\newenvironment{body-slide}[1]{%
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight]{images/uqcs-background}
+}
+\setbeamercolor{frametitle}{fg=UQCSBlue}
+\setbeamerfont{frametitle}{family=\poppinsbold,size={\fontsize{22}{26}}}
+\setbeamertemplate{itemize item}{\color{white}$\blacksquare$}
+\addtobeamertemplate{block begin}{%
+  \setlength{\textwidth}{0.4\textwidth}%
+}{}
+\color{white}
+\poppinslight
+\begin{frame}{#1}
+}{\end{frame}}
+
+\newenvironment{image-slide}[1]{%
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight]{backgrounds/image-slide}
+}
+\setbeamercolor{frametitle}{fg=UQCSBlue}
+\setbeamerfont{frametitle}{family=\poppinsbold,size={\fontsize{22}{26}}}
+\addtobeamertemplate{block begin}{%
+  \setlength{\textwidth}{0.4\textwidth}%
+}{}
+\color{white}
+\poppinslight
+\begin{frame}[allowframebreaks,noframenumbering]{#1}
+}{\end{frame}}
+
+\newenvironment{4-pane-slide}[1]{%
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight]{backgrounds/4-pane}
+}
+\setbeamercolor{frametitle}{fg=UQCSBlue}
+\setbeamerfont{frametitle}{family=\poppinsbold,size={\fontsize{22}{26}}}
+\addtobeamertemplate{block begin}{%
+  \setlength{\textwidth}{0.4\textwidth}%
+}{}
+\addtobeamertemplate{frametitle}{
+  \setlength{\textwidth}{0.3\textwidth}
+}{}
+\addtobeamertemplate{frametitle}{}{\vspace{-2em}}
+\color{white}
+\poppinslight
+\begin{frame}[noframenumbering]{#1}
+}{\end{frame}}
+
+
+\AtBeginSection[]{
+  \begin{section-slide}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead%
+  \end{beamercolorbox}
+  \vfill
+  \end{section-slide}
+}
+
+\AtBeginSubsection[]{
+  \begin{section-slide}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsubsection%
+  \end{beamercolorbox}
+  \vfill
+  \end{section-slide}
+}
+
+\endinput
