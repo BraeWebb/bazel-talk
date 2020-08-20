@@ -27,10 +27,10 @@ jobs:
         "${GITHUB_WORKSPACE}/bin/bazel" build slides
         
     - run: |
-        "ls -R ."
+        ls -R .
     
     - run: |
-        "ls -R /home/runner/.cache/bazel"
+        ls -R /home/runner/.cache/bazel
     
     - name: Upload Slides
       uses: actions/upload-artifact@v2
