@@ -1,7 +1,8 @@
 filegroup(
     name = "images",
     srcs = glob([
-        "*.png"
+        "*.png",
+        "backgrounds/*.png",
     ]),
     visibility = ["//visibility:public"],
 )
