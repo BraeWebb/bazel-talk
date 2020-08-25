@@ -2,15 +2,71 @@
 
 \usepackage{slides/uqcs}
 
-\title{Bazel It}
+\title{Building with Bazel}
 \author{Brae Webb}
 \institute{University of Queensland}
 \date{August 27, 2020}
 
+% \theoremstyle{definition}
+% \newtheorem{definition}{Definition}[section]
+
 \begin{document}
+
+% Slide types
+% title-slide
+% split-slide
+% section-slide
+% body-slide
+% image-slide
+% 4-pane-slide
 
 \begin{title-slide}
 \titlepage
 \end{title-slide}
+
+\begin{split-slide}{Outline}
+    \vspace{4em}
+    \tableofcontents
+\end{split-slide}
+
+\section{What is Bazel?}
+
+\begin{body-slide}{Bazel 101}
+\begin{itemize}[<+-| alert@+>]
+    \color{UQCSBlue}
+    \item Pronounced same as `basil' (the herb) in US English `BAY-zel'
+    \item Build tool for many languages
+    \item Open-source of Google's internal tool Blaze
+\end{itemize}
+
+\end{body-slide}
+
+\section{An Ad for Bazel}
+
+\subsection{Bazel Features}
+\begin{split-slide}{Overview}
+\begin{enumerate}
+    \item Cached
+    \item Isolated
+    \item Language agnostic
+    \item Dependency graph
+    \item Extendable
+\end{enumerate}
+\end{split-slide}
+
+\subsection{Bazel Languages}
+{
+\usebackgroundtemplate{%
+\includegraphics[width=\paperwidth,height=\paperheight]{images/languages}
+}
+\begin{frame}
+    
+\end{frame}
+}
+
+
+\section{Actually Using Bazel}
+
+
 
 \end{document}
