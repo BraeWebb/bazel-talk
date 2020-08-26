@@ -1,4 +1,15 @@
 /**
+  * Goal: Ability to take a tree class and serialize it
+  * 
+  * E.g.
+  *             root
+  *         left    right
+  * left.left
+  * =>
+  * ('root',('left',('left.left',null,null),null),('right',null,null))
+  */
+
+/**
  * Node class for representing a tree structure.
  *
  * Each node stores a value and a reference to it's left and right nodes.
