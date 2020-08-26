@@ -104,9 +104,9 @@
 \addtobeamertemplate{block begin}{%
   \setlength{\textwidth}{0.4\textwidth}%
 }{}
-\color{white}
+% \color{white}
 \poppinslight
-\begin{frame}{#1}
+\begin{frame}[containsverbatim,environment=body-slide]{#1}
 }{\end{frame}}
 
 \newenvironment{image-slide}[1]{%

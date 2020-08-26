@@ -1,5 +1,32 @@
 \documentclass[aspectratio=169]{beamer}
 
+\usepackage{listings}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{language_style}{
+    % backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{UQCSBlue},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=language_style}
+\lstnewenvironment{bazel}{\lstset{language=python}}{}
+
 \usepackage{slides/uqcs}
 
 \title{Building with Bazel}
@@ -35,7 +62,7 @@
 \begin{itemize}[<+-| alert@+>]
     \color{UQCSBlue}
     \item Pronounced same as `basil' (the herb) in US English `BAY-zel'
-    \item Build tool for many languages
+    \item Build tool for many many languages
     \item Open-source of Google's internal tool Blaze
 \end{itemize}
 
@@ -46,13 +73,34 @@
 \subsection{Bazel Features}
 \begin{split-slide}{Overview}
 \begin{enumerate}
-    \item Cached
     \item Isolated
-    \item Language agnostic
+    \item Cached
     \item Dependency graph
     \item Extendable
 \end{enumerate}
 \end{split-slide}
+
+\begin{body-slide}{Isolated}
+Builds are isolated to enforce accurate dependency specification
+\end{body-slide}
+
+\begin{body-slide}{Cached}
+Builds specify what they output and that is cached
+
+The cache can be local or a remote cache
+\end{body-slide}
+
+\begin{body-slide}{Dependency Graph}
+All dependencies are as accurate as possible
+
+Dependency graph only updates what is required
+
+Allows isolated builds to build in parallel
+\end{body-slide}
+
+\begin{body-slide}{Extendable}
+Add new rules for a language or framework in a subset of python
+\end{body-slide}
 
 \subsection{Bazel Languages}
 {
@@ -67,6 +115,41 @@
 
 \section{Actually Using Bazel}
 
+\subsection{BUILD}
+
+\begin{body-slide}{BUILD}
+\begin{itemize}[<+-| alert@+>]
+    \color{UQCSBlue}
+    \item All the magic starts in a BUILD file
+    \item Each 'package' in your repository will tend to have a BUILD
+    \item BUILD files specify a list of builds using build rules
+\end{itemize}
+\end{body-slide}
+
+\begin{body-slide}{Built-in Rules}
+Bazel comes with built-in rules that you can use straight away
+
+\only<2->{
+\begin{enumerate}
+    \item C/C++ rules
+    \item Java rules
+    \item Python rules
+    \item Protobuf rules
+\end{enumerate}
+}
+\end{body-slide}
+
+\begin{body-slide}{Example}
+\begin{bazel}
+java_binary(
+    name = "tree_serializer",
+    srcs = [
+        "SerializeTree.java",
+    ],
+    main_class = "SerializeTree"
+)
+\end{bazel}
+\end{body-slide}
 
 
 \end{document}

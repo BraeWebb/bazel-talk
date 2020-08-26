@@ -11,13 +11,14 @@ latex_package(
 latex_document(
     name = "slides",
     srcs = [
-        "slides/uqcs.sty",
+        "uqcs.sty",
         ":textpos",
         "//fonts",
         "//images",
         "@bazel_latex//packages:beamer",
         "@bazel_latex//packages:multicol",
         "@bazel_latex//packages:fontspec",
+        "@bazel_latex//packages:listings",
     ],
-    main = "slides/main.tex",
+    main = "main.tex",
 )
