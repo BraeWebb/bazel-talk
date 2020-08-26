@@ -81,5 +81,24 @@ java_binary(
 \end{bazel}
     \item explain the glob function allows wildcard
     \item explain that : means that it is a reference to another target
+    \item write a solution to the message decoder
+    \item write a py\_binary for enumerator.py
+    \item write test\_enumerator.py
+    \item write a test for py\_test for test\_enumerator.py
+\begin{bazel}
+py_binary(
+    name = "decode_enumerator",
+    srcs = ["enumerator.py"],
+    main = "enumerator.py",
+)
+
+py_test(
+    name = "decode_enumerator_test",
+    srcs = ["test_enumerator.py"],
+    deps = [":decode_enumerator"],
+    main = "test_enumerator.py",
+)
+\end{bazel}
+    \item run with bazel test
 \end{enumerate}
 \end{document}

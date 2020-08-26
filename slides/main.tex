@@ -140,6 +140,8 @@ Bazel comes with built-in rules that you can use straight away
 \end{body-slide}
 
 \begin{body-slide}{Example}
+
+\only<2->{
 \begin{bazel}
 java_binary(
     name = "tree_serializer",
@@ -149,7 +151,33 @@ java_binary(
     main_class = "SerializeTree"
 )
 \end{bazel}
+}
 \end{body-slide}
 
+\begin{body-slide}{Running Bazel}
+\begin{itemize}[<+-| alert@+>]
+    \color{UQCSBlue}
+    \item Bazel has 3 main modes
+    \item \texttt{bazel build}
+    \item \texttt{bazel run}
+    \item \texttt{bazel test}
+\end{itemize}
+\end{body-slide}
+
+\begin{body-slide}{Target Names}
+\begin{itemize}[<+-| alert@+>]
+    \color{UQCSBlue}
+    \item Relative path if in same directory
+    \item Absolute path from anywhere in the repository
+\end{itemize}
+\end{body-slide}
+
+\begin{body-slide}{Python Rules}
+\begin{itemize}
+    \item py\_library
+    \item py\_binary
+    \item py\_test
+\end{itemize}
+\end{body-slide}
 
 \end{document}

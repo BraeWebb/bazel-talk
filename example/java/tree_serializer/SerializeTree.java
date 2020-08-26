@@ -160,7 +160,7 @@ public class SerializeTree {
     }
 
     /**
-     * Deserialize a tree structure from it's serialized string {@link Daily3#serialize(Node)}.
+     * Deserialize a tree structure from it's serialized string {@link SerializeTree#serialize(Node)}.
      *
      * Example:
      * ('root',('left',('left.left',null,null),null),('right',null,null))
