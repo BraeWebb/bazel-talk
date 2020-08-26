@@ -4,6 +4,7 @@ latex_document(
     name = "script",
     srcs = [
         "@bazel_latex//packages:listings",
+        "@bazel_latex//packages:xcolor",
     ],
     main = "main.tex",
 )

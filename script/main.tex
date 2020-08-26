@@ -1,9 +1,85 @@
 \documentclass{article}
 
+\usepackage{xcolor}
+\usepackage{listings}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{language_style}{
+    % backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=language_style}
+\lstnewenvironment{bazel}{\lstset{language=python}}{}
+
 \title{Bazel Presentation Notes}
 \author{Brae Webb}
 \date{August, 2020}
 
 \begin{document}
     \maketitle
+
+\begin{enumerate}
+    \item Open java/tree\_serializer and explain SerializeTree
+    \item Write a BUILD file for java\_binary
+\begin{bazel}
+java_binary(
+    name = "tree_serializer",
+    srcs = [
+        "SerializeTree.java",
+    ],
+    main_class = "SerializeTree"
+)
+\end{bazel}
+    \begin{enumerate}
+        \item the rule is java\_binary
+        \item the specific instructions here create a target using java\_binary
+        \item every target needs a name
+        \item other parameters vary and can be found in the docs
+    \end{enumerate}
+    \item Explain 3 modes of execution (slide)
+    \item bazel build tree\_serializer in same directory
+    \item bazel build //example/java/tree\_serializer:tree\_serializer from anywhere
+    \item bazel build //example/java/tree\_serializer as shorthand when target
+    name equals directory name
+    \item note that it logs artifacts
+    \item artifacts are stored in bazel-bin
+    \item break SerializeTree into InvalidFormat, Node and StringProcessor
+    \item rewrite BUILD to include java\_library
+\begin{bazel}
+java_library(
+    name = "node_lib",
+    srcs = [
+        "Node.java"
+    ],
+)
+
+java_binary(
+    name = "tree_serializer",
+    srcs = glob([
+        "*.java",
+    ]),
+    deps = [":node_lib"],
+    main_class = "SerializeTree"
+)    
+\end{bazel}
+    \item explain the glob function allows wildcard
+    \item explain that : means that it is a reference to another target
+\end{enumerate}
 \end{document}
