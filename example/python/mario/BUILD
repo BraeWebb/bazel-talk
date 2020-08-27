@@ -17,3 +17,13 @@ py_binary(
         "level.txt",
     ],
 )
+
+py_test(
+    name = "test_mario",
+    srcs = [
+        "test_mario.py"
+    ],
+    deps = [
+        ":mario",
+    ],
+)
