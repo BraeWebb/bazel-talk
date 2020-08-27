@@ -35,6 +35,8 @@
 \begin{document}
     \maketitle
 
+
+\section{Basic Bazel: Java}
 \begin{enumerate}
     \item Open java/tree\_serializer and explain SerializeTree
     \item Write a BUILD file for java\_binary
@@ -81,6 +83,10 @@ java_binary(
 \end{bazel}
     \item explain the glob function allows wildcard
     \item explain that : means that it is a reference to another target
+\end{enumerate}
+
+\section{Basic Bazel: Python}
+\begin{enumerate}
     \item write a solution to the message decoder
     \item write a py\_binary for enumerator.py
     \item write test\_enumerator.py
@@ -100,5 +106,180 @@ py_test(
 )
 \end{bazel}
     \item run with bazel test
+\end{enumerate}
+
+
+\section{Extending Bazel: SML}
+\begin{enumerate}
+    \item go find an standard ML compiler (mlton)
+    \item download the linux version from source forge
+    \item extract the compiler
+
+\texttt{./bin/mlton ~/work/bazel-presentation/example/ml/regex.sml}
+
+\texttt{ls ~/work/bazel-presentation/example/ml}
+
+\texttt{~/work/bazel-presentation/example/ml/regex}
+
+    \item create a new \texttt{bazel\_rules/ml.bzl}
+    \item write a new repository rule to download the compiler
+\begin{bazel}
+def _sml_compiler_repository(ctx):
+    ctx.download_and_extract()
+
+sml_compiler = repository_rule(
+    implementation = _sml_compiler_repository,
+)
+\end{bazel}
+
+    \item create a dict for with the required information
+\begin{bazel}
+_ml_compilers = {
+    "Release20200722": {
+        "linux": {
+            "sha": "2829b0d138a6664022c14b0814aae82f68fba3f8443dd454737697ad6cce4b92",
+            "url": "https://sourceforge.net/projects/mlton/files/mlton/20200722/mlton-20200722-1.amd64-linux.tgz",
+            "prefix": "mlton-20200722-1.amd64-linux",
+        }
+    }
+}
+\end{bazel}
+    \item hash the file with \texttt{sha256sum mlton-20200722-1.amd64-linux.tgz}
+    \item use those parameters in the rule
+\begin{bazel}
+def _sml_compiler_repository(ctx):
+    release = ctx.attr.release
+    if release not in _ml_compilers:
+        fail("Unknown release version: " + release)
+
+    platform = ctx.os.name
+    if platform not in _ml_compilers[release]:
+        fail("Unsupported operating system: " + platform)
+    
+    remote = _ml_compilers[release][platform]
+
+    ctx.download_and_extract(
+        url = [remote["url"]],
+        sha256 = remote["sha"],
+        stripPrefix = remote["prefix"],
+    )
+
+sml_compiler = repository_rule(
+    attrs = {
+        "release": attr.string(mandatory = True),
+    },
+    implementation = _sml_compiler_repository,
+)
+\end{bazel}
+    \item call the new repository rule in the workspace
+\begin{bazel}
+# ML Compiler
+load("//example/bazel_rules:ml.bzl", "sml_compiler")
+
+sml_compiler(
+    name = "ml_compiler",
+    release = "Release20200722",
+)
+\end{bazel}
+    \item go fetch the repository \texttt{bazel fetch @ml\_compiler//...}
+    \item stub a new rule for ml\_binary
+\begin{bazel}
+def _ml_binary(ctx):
+    binary = ctx.actions.declare_file(ctx.label.name)
+
+    return [DefaultInfo(executable = binary)]
+
+
+ml_binary = rule(
+    implementation = _ml_binary,
+    attrs = {
+        "main": attr.label(mandatory = True, allow_single_file = True),
+        "srcs": attr.label_list(allow_files = True),
+    },
+    executable = True,
+)
+\end{bazel}
+    \item create a rule in ml/BUILD
+\begin{bazel}
+load("//example/bazel_rules:ml.bzl", "ml_binary")
+
+ml_binary(
+    name = "regex",
+    main = "regex.sml",
+)
+\end{bazel}
+    \item run and have fail
+    \item create an action to run the compiler
+\begin{bazel}
+def _ml_binary(ctx):
+    binary = ctx.actions.declare_file(ctx.label.name)
+
+    ctx.actions.run(
+        executable = ctx.executable._compiler,
+        use_default_shell_env = True,
+        arguments = [
+            "-output",
+            binary.path,
+            ctx.file.main.path,            
+        ],
+        inputs = depset(
+            direct = ctx.files.main + ctx.files.srcs,
+        ),
+        outputs = [binary],
+        tools = [ctx.executable._compiler],
+    )
+
+    return [DefaultInfo(executable = binary)]
+
+
+ml_binary = rule(
+    implementation = _ml_binary,
+    attrs = {
+        "main": attr.label(mandatory = True, allow_single_file = True),
+        "srcs": attr.label_list(allow_files = True),
+        "_compiler": attr.label(
+            default = "@ml_compiler//:bin/mlton",
+            allow_single_file = True,
+            executable = True,
+            cfg = "host",
+        ),
+    },
+    executable = True,
+)
+\end{bazel}
+    \item run and fail
+    \item fix repository rule by adding a BUILD and WORKSPACE
+\begin{bazel}
+ctx.file("BUILD", """
+exports_files(glob(["**/*"]))
+""")
+ctx.file("WORKSPACE", "workspace(name = \"{name}\")".format(name = ctx.name))
+\end{bazel}
+    \item run and fail again
+    \item run with --sandbox\_debug
+    \item open working directory and see that no library exists
+    \item export library from repository
+\begin{bazel}
+filegroup(
+    name = "library",
+    srcs = glob(["lib/**/*"]),
+    visibility = ["//visibility:public"],
+)    
+\end{bazel}
+    \item include in rule
+\begin{bazel}
+"_compiler_library": attr.label(
+    default = "@ml_compiler//:library",
+    allow_files = True,
+    cfg = "host",
+)
+\end{bazel}
+    \item include in inputs
+\begin{bazel}
+inputs = depset(
+    direct = ctx.files.main + ctx.files.srcs + ctx.files._compiler_library,
+),
+\end{bazel}
+    \item run and yay
 \end{enumerate}
 \end{document}
