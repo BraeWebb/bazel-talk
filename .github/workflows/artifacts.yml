@@ -28,7 +28,7 @@ jobs:
         
     - name: Copy Slides
       run: |
-        cp bazel-bin/slides.pdf slides.pdf
+        cp bazel-bin/slides/slides.pdf slides.pdf
     
     - name: Upload Slides
       uses: actions/upload-artifact@v2
