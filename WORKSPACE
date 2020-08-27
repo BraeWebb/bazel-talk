@@ -11,3 +11,11 @@ http_archive(
 load("@bazel_latex//:repositories.bzl", "latex_repositories")
 
 latex_repositories()
+
+# ML Compiler
+load("//example/bazel_rules:ml.bzl", "sml_compiler")
+
+sml_compiler(
+    name = "ml_compiler",
+    release = "Release20200722",
+)
