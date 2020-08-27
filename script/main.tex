@@ -109,6 +109,16 @@ py_test(
 \end{enumerate}
 
 
+\section{Querying Bazel}
+\begin{enumerate}
+    \item Run a simple query \texttt{bazel query "//..."}
+    \item Run a simple query \texttt{bazel query "deps(//...)"}
+    \item Run a simple query \texttt{bazel query "deps(//example/python/decode\_enumerator)"}
+    \item \texttt{bazel query "deps(//example/...)" --output graph --notool\_deps | dot -Tpng > graph.png \&\& open graph.png}
+    \item \texttt{bazel query "kind(py\_test, //example/...)"}
+\end{enumerate}
+
+
 \section{Extending Bazel: SML}
 \begin{enumerate}
     \item go find an standard ML compiler (mlton)

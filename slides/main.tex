@@ -1,41 +1,11 @@
 \documentclass[aspectratio=169]{beamer}
 
-\usepackage{listings}
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-\lstdefinestyle{language_style}{
-    % backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{UQCSBlue},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
-}
-\lstset{style=language_style}
-\lstnewenvironment{bazel}{\lstset{language=python}}{}
-
 \usepackage{slides/uqcs}
 
 \title{Building with Bazel}
 \author{Brae Webb}
 \institute{University of Queensland}
 \date{August 27, 2020}
-
-% \theoremstyle{definition}
-% \newtheorem{definition}{Definition}[section]
 
 \begin{document}
 
@@ -59,7 +29,7 @@
 \section{What is Bazel?}
 
 \begin{body-slide}{Bazel 101}
-\begin{itemize}[<+-| alert@+>]
+\begin{itemize}[<+-|alert@+>]
     \color{UQCSBlue}
     \item Pronounced same as `basil' (the herb) in US English `BAY-zel'
     \item Build tool for many many languages
@@ -118,11 +88,11 @@ Add new rules for a language or framework in a subset of python
 \subsection{BUILD}
 
 \begin{body-slide}{BUILD}
-\begin{itemize}[<+-| alert@+>]
+\begin{itemize}[<+-|alert@+>] 
     \color{UQCSBlue}
     \item All the magic starts in a BUILD file
     \item Each 'package' in your repository will tend to have a BUILD
-    \item BUILD files specify a list of builds using build rules
+    \item BUILD files specify a list of build targets using build rules
 \end{itemize}
 \end{body-slide}
 
@@ -140,22 +110,11 @@ Bazel comes with built-in rules that you can use straight away
 \end{body-slide}
 
 \begin{body-slide}{Example}
-
-\only<2->{
-\begin{bazel}
-java_binary(
-    name = "tree_serializer",
-    srcs = [
-        "SerializeTree.java",
-    ],
-    main_class = "SerializeTree"
-)
-\end{bazel}
-}
+We have a Java program that serialises a tree
 \end{body-slide}
 
 \begin{body-slide}{Running Bazel}
-\begin{itemize}[<+-| alert@+>]
+\begin{itemize}[<+-|alert@+>] 
     \color{UQCSBlue}
     \item Bazel has 3 main modes
     \item \texttt{bazel build}
@@ -165,7 +124,7 @@ java_binary(
 \end{body-slide}
 
 \begin{body-slide}{Target Names}
-\begin{itemize}[<+-| alert@+>]
+\begin{itemize}[<+-|alert@+>] 
     \color{UQCSBlue}
     \item Relative path if in same directory
     \item Absolute path from anywhere in the repository
@@ -178,6 +137,47 @@ java_binary(
     \item py\_binary
     \item py\_test
 \end{itemize}
+\end{body-slide}
+
+\begin{body-slide}{Example}
+We have a python file that computes anagrams
+\end{body-slide}
+
+
+\begin{body-slide}{Queries}
+Bazel has a built-in query language to analyse your builds
+\end{body-slide}
+
+\subsection{WORKSPACE}
+
+\begin{body-slide}{WORKSPACE}
+\begin{itemize}[<+-|alert@+>]
+    \color{UQCSBlue}
+    \item Lives in the root of your repository
+    \item Specifies external project dependencies
+    \item Uses repository rules rather than rules
+\end{itemize}
+\end{body-slide}
+
+
+\section{Extending Bazel}
+
+\begin{body-slide}{Starlark}
+Starlark is a language that is a subset of python
+
+New rules are defined using the Starlark language
+\end{body-slide}
+
+\begin{body-slide}{Example}
+Standard ML is a language for which we want to add support
+\end{body-slide}
+
+\begin{body-slide}{Further}
+Sources for talk: \url{https://github.com/BraeWebb/bazel-talk}
+
+Bazel documentation: \url{https://docs.bazel.build}
+
+List of all things Bazel: \url{https://awesomebazel.com}
 \end{body-slide}
 
 \end{document}

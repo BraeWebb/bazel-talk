@@ -35,7 +35,7 @@
 \setbeamercolor{normal text}{fg=white}
 \setbeamercolor{alerted text}{fg=white}
 
-\setbeamertemplate{itemize item}{\color{white}\hfill\ensuremath{\blacksquare}}
+% \setbeamertemplate{itemize item}{\color{white}\hfill\ensuremath{\blacksquare}}
 
 \defbeamertemplate*{title page}{customized}[1][]
 {
@@ -106,7 +106,7 @@
 }{}
 % \color{white}
 \poppinslight
-\begin{frame}[containsverbatim,environment=body-slide]{#1}
+\begin{frame}[fragile,environment=body-slide]{#1}
 }{\end{frame}}
 
 \newenvironment{image-slide}[1]{%
